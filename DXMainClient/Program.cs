@@ -20,6 +20,9 @@ namespace DTAClient
     {
         static Program()
         {
+#if DEBUG && DX
+            System.Windows.Forms.MessageBox.Show("Attach me");
+#endif
             /* We have different binaries depending on build platform, but for simplicity
              * the target projects (DTA, TI, MO, YR) supply them all in a single download.
              * To avoid DLL hell, we load the binaries from different directories
@@ -47,7 +50,7 @@ namespace DTAClient
 #error Yuri has won
 #endif
 
-#if !DEBUG
+//#if !DEBUG
 #if !NETFRAMEWORK
             // Set up DLL load paths as early as possible
             AssemblyLoadContext.Default.Resolving += DefaultAssemblyLoadContextOnResolving;
@@ -55,7 +58,7 @@ namespace DTAClient
             // Set up DLL load paths as early as possible
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 #endif
-#endif
+//#endif
         }
 
         private static string COMMON_LIBRARY_PATH;
