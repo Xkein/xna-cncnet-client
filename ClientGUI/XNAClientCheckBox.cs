@@ -42,6 +42,17 @@ namespace ClientGUI
                 ToolTipText = value.FromIniString();
                 return;
             }
+            switch (key)
+            {
+                case "CheckedTexture":
+                    if (string.IsNullOrEmpty(key) == false)
+                        CheckedTexture = AssetLoader.LoadTexture(value);
+                    return;
+                case "ClearTexture":
+                    if (string.IsNullOrEmpty(key) == false)
+                        ClearTexture = AssetLoader.LoadTexture(value);
+                    return;
+            }
 
             base.ParseControlINIAttribute(iniFile, key, value);
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using ClientCore;
 using ClientCore.CnCNet5;
@@ -11,6 +12,8 @@ using DTAClient.DXGUI.Multiplayer.GameLobby;
 using DTAClient.Online;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Media;
+
 using Rampastring.Tools;
 using Rampastring.XNAUI;
 
@@ -43,12 +46,17 @@ namespace DTAClient.DXGUI.Generic
         private readonly CnCNetManager cncnetManager;
         private readonly IServiceProvider serviceProvider;
 
+#if !GL
+        private VideoPlayer videoPlayer;
+        private bool videoStopped;
+        private bool renderAfterVideoStopped;
+#endif
         public override void Initialize()
         {
             ClientRectangle = new Rectangle(0, 0, 800, 600);
             Name = "LoadingScreen";
 
-            BackgroundTexture = AssetLoader.LoadTexture("loadingscreen.png");
+            SelectLoadingScreens();
 
             base.Initialize();
 
@@ -69,6 +77,8 @@ namespace DTAClient.DXGUI.Generic
                 Cursor.Visible = false;
                 visibleSpriteCursor = true;
             }
+
+            LoadLogo();
         }
 
         private void InitUpdater()
@@ -107,17 +117,79 @@ namespace DTAClient.DXGUI.Generic
             WindowManager.RemoveControl(this);
 
             Cursor.Visible = visibleSpriteCursor;
+
+#if !GL
+            videoPlayer?.Dispose();
+            videoPlayer = null;
+#endif
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
+#if !GL
+            if (renderAfterVideoStopped)
+            {
+                videoPlayer.Stop();
+                videoPlayer?.Dispose();
+                videoPlayer = null;
+            }
+            if (videoPlayer?.State == MediaState.Playing)
+            {
+                if (Keyboard.IsKeyHeldDown(Microsoft.Xna.Framework.Input.Keys.Escape))
+                {
+                    videoStopped = true;
+                }
+                return;
+            }
+#endif
+
             if (updaterInitTask == null || updaterInitTask.Status == TaskStatus.RanToCompletion)
             {
                 if (mapLoadTask.Status == TaskStatus.RanToCompletion)
                     Finish();
             }
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            base.Draw(gameTime);
+
+#if !GL
+            if (videoPlayer?.State == MediaState.Playing && !videoStopped)
+            {
+                Renderer.DrawTexture(videoPlayer.GetTexture(), ClientRectangle, Color.White);
+            }
+            if (videoStopped)
+            {
+                renderAfterVideoStopped = true;
+            }
+#endif
+        }
+
+        private void SelectLoadingScreens()
+        {
+            string dir = Path.Combine(ProgramConstants.GetBaseResourcePath(), "LoadingScreens");
+            if (Directory.Exists(dir))
+            {
+                string[] files = Directory.GetFiles(dir);
+                string file = Path.GetFileName(files[new System.Random().Next(files.Length)]);
+                BackgroundTexture = AssetLoader.LoadTexture(Path.Combine(ProgramConstants.GetBaseResourcePath(), "LoadingScreens", file));
+            }
+            else
+            {
+                BackgroundTexture = AssetLoader.LoadTexture("loadingscreen.png");
+            } 
+        }
+
+        private void LoadLogo()
+        {
+#if !GL
+            Video video = Game.Content.Load<Video>(Path.Combine(ProgramConstants.GetBaseResourcePath(), "WALogo"));
+            videoPlayer = new VideoPlayer();
+            videoPlayer.Play(video);
+#endif
         }
     }
 }
