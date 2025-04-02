@@ -135,9 +135,16 @@ namespace DTAClient.DXGUI.Generic
                 videoPlayer?.Dispose();
                 videoPlayer = null;
             }
-            if (videoPlayer?.State == MediaState.Playing)
+            else
             {
-                if (Keyboard.IsKeyHeldDown(Microsoft.Xna.Framework.Input.Keys.Escape))
+                if (videoPlayer?.State == MediaState.Playing)
+                {
+                    if (Keyboard.IsKeyHeldDown(Microsoft.Xna.Framework.Input.Keys.Escape))
+                    {
+                        videoStopped = true;
+                    }
+                }
+                else if(videoPlayer?.State == MediaState.Stopped)
                 {
                     videoStopped = true;
                 }
