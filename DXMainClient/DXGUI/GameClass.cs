@@ -310,6 +310,11 @@ namespace DTAClient.DXGUI
                             .AddTransientXnaControl<SettingDropDown>()
                             .AddTransientXnaControl<FileSettingCheckBox>()
                             .AddTransientXnaControl<FileSettingDropDown>();
+
+                        // bluehaze xna controls
+                        services
+                            .AddSingletonXnaControl<Bluehaze.UI.TacticalGalleryGrid>()
+                            .AddSingletonXnaControl<Bluehaze.UI.CommanderChallenge>();
                     }
                 )
                 .Build();
