@@ -214,7 +214,7 @@ namespace DTAClient.DXGUI.Generic
         private void LoadLogo()
         {
 #if !GL
-            Video video = Game.Content.Load<Video>(Path.Combine(ProgramConstants.GetBaseResourcePath(), "WALogo"));
+            Video video = Game.Content.Load<Video>("WALogo");
             videoPlayer = new VideoPlayer();
             videoPlayer.Play(video);
 #endif

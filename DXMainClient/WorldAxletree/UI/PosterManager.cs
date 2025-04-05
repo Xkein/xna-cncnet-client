@@ -144,7 +144,11 @@ namespace DTAClient.WorldAxletree.UI
 
             if (posterGirls.Count > 0)
             {
+#if GL
+                L2DManager_SetWindowHandle(System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle);
+#else
                 L2DManager_SetWindowHandle(WindowManager.GetWindowHandle());
+#endif
                 L2DManager_SetRenderSize(RenderTargetWidth, RenderTargetHeight);
                 l2dData = new int[RenderTargetWidth * RenderTargetHeight];
 
@@ -441,7 +445,7 @@ namespace DTAClient.WorldAxletree.UI
 
         private void ShowMenu(XNAContextMenu contextMenu)
         {
-            contextMenu.Open(Cursor.Location - contextMenu.Parent.GetWindowPoint());
+            contextMenu.Open(new Point(Cursor.Location.X - contextMenu.Parent.GetWindowPoint().X, Cursor.Location.Y - contextMenu.Parent.GetWindowPoint().Y));
         }
 
         public static void ContextMenu_OptionSelected(object sender, ContextMenuItemSelectedEventArgs e)

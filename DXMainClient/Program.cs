@@ -20,7 +20,7 @@ namespace DTAClient
     {
         static Program()
         {
-#if DEBUG && DX
+#if DEBUG
             System.Windows.Forms.MessageBox.Show("Attach me");
 #endif
             /* We have different binaries depending on build platform, but for simplicity

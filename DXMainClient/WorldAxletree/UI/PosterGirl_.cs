@@ -229,7 +229,7 @@ namespace DTAClient.WorldAxletree.UI
                 contextMenu.AddItem(helper);
             }
 
-            contextMenu.Open(Cursor.Location - contextMenu.Parent.GetWindowPoint());
+            contextMenu.Open(new Point(Cursor.Location.X - contextMenu.Parent.GetWindowPoint().X, Cursor.Location.Y - contextMenu.Parent.GetWindowPoint().Y));
         }
         public void GirlChange(int index)
         {
