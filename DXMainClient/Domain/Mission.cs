@@ -3,6 +3,7 @@ using ClientCore;
 using ClientCore.Enums;
 using ClientCore.Extensions;
 using Rampastring.Tools;
+using Microsoft.Xna.Framework;
 
 
 namespace DTAClient.Domain
@@ -36,6 +37,15 @@ namespace DTAClient.Domain
             Enabled = iniFile.GetBooleanValue(sectionName, nameof(Enabled), true);
             BuildOffAlly = iniFile.GetBooleanValue(sectionName, nameof(BuildOffAlly), false);
             PlayerAlwaysOnNormalDifficulty = iniFile.GetBooleanValue(sectionName, nameof(PlayerAlwaysOnNormalDifficulty), false);
+
+            string[] locationStr = iniFile.GetStringValue(sectionName, "Location", "1,1").Split(',');
+            Location = new Point(Convert.ToInt32(locationStr[0]), Convert.ToInt32(locationStr[1]));
+
+            Time = iniFile.GetStringValue(sectionName, "Time", "infinite future");
+            ThumbnailName = iniFile.GetStringValue(sectionName, "Thumbnail", "nothumbnail.png");
+            DetailBackgroundName = iniFile.GetStringValue(sectionName, "DetailBackground", string.Empty);
+            BattleAreaName = iniFile.GetStringValue(sectionName, "BattleArea", string.Empty);
+            IsExtra = iniFile.GetBooleanValue(sectionName, "IsExtra", false);
         }
 
         public int Index { get; }
@@ -52,5 +62,20 @@ namespace DTAClient.Domain
         public bool Enabled { get; }
         public bool BuildOffAlly { get; }
         public bool PlayerAlwaysOnNormalDifficulty { get; }
+
+        public Point Location { get; private set; }
+        public bool IsExtra { get; private set; }
+        public string BattleAreaName { get; private set; }
+        public string DetailBackgroundName { get; private set; }
+        public string ThumbnailName { get; private set; }
+        public string Time { get; private set; }
+        public bool Available()
+        { // TODO
+            if (string.IsNullOrEmpty(Scenario))
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

@@ -54,6 +54,7 @@ namespace DTAClient.DXGUI.Generic
             GameInProgressWindow gameInProgressWindow,
             MapLoader mapLoader,
             CampaignSelector campaignSelector,
+            CampaignMapWindow campaignMapWindow,
             GameLoadingWindow gameLoadingWindow,
             StatisticsWindow statisticsWindow,
             UpdateQueryWindow updateQueryWindow,
@@ -76,6 +77,7 @@ namespace DTAClient.DXGUI.Generic
             this.gameInProgressWindow = gameInProgressWindow;
             this.mapLoader = mapLoader;
             this.campaignSelector = campaignSelector;
+            this.campaignMapWindow = campaignMapWindow;
             this.gameLoadingWindow = gameLoadingWindow;
             this.statisticsWindow = statisticsWindow;
             this.updateQueryWindow = updateQueryWindow;
@@ -111,6 +113,7 @@ namespace DTAClient.DXGUI.Generic
         private readonly GameInProgressWindow gameInProgressWindow;
         private readonly MapLoader mapLoader;
         private readonly CampaignSelector campaignSelector;
+        private readonly CampaignMapWindow campaignMapWindow;
         private readonly GameLoadingWindow gameLoadingWindow;
         private readonly StatisticsWindow statisticsWindow;
         private readonly UpdateQueryWindow updateQueryWindow;
@@ -149,6 +152,7 @@ namespace DTAClient.DXGUI.Generic
 
         // Main Menu Buttons
         private XNAClientButton btnNewCampaign;
+        private XNAClientButton btnMapSelector;
         private XNAClientButton btnLoadGame;
         private XNAClientButton btnSkirmish;
         private XNAClientButton btnCnCNet;
@@ -179,6 +183,14 @@ namespace DTAClient.DXGUI.Generic
             btnNewCampaign.HoverTexture = AssetLoader.LoadTexture("MainMenu/campaign_c.png");
             btnNewCampaign.HoverSoundEffect = new EnhancedSoundEffect("MainMenu/button.wav");
             btnNewCampaign.LeftClick += BtnNewCampaign_LeftClick;
+
+            // world map
+            btnMapSelector = new XNAClientButton(WindowManager);
+            btnMapSelector.Name = "btnMapSelector";
+            btnMapSelector.IdleTexture = AssetLoader.LoadTexture("MainMenu/campaign.png");
+            btnMapSelector.HoverTexture = AssetLoader.LoadTexture("MainMenu/campaign_c.png");
+            btnMapSelector.HoverSoundEffect = new EnhancedSoundEffect("MainMenu/button.wav");
+            btnMapSelector.LeftClick += BtnMapSelector_LeftClick;
 
             btnLoadGame = new XNAClientButton(WindowManager);
             btnLoadGame.Name = nameof(btnLoadGame);
@@ -269,6 +281,7 @@ namespace DTAClient.DXGUI.Generic
             lblUpdateStatus.ClientRectangle = new Rectangle(0, 0, UIDesignConstants.BUTTON_WIDTH_160, 20);
 
             AddChild(btnNewCampaign);
+            AddChild(btnMapSelector);
             AddChild(btnLoadGame);
             AddChild(btnSkirmish);
             AddChild(btnCnCNet);
@@ -586,6 +599,7 @@ namespace DTAClient.DXGUI.Generic
                 cncnetLobby,
                 lanLobby,
                 campaignSelector,
+                campaignMapWindow,
                 gameLoadingWindow,
                 updateQueryWindow,
                 manualUpdateQueryWindow,
@@ -614,6 +628,7 @@ namespace DTAClient.DXGUI.Generic
                 optionsWindow,
 
                 campaignSelector,
+                campaignMapWindow,
                 gameLoadingWindow,
                 statisticsWindow,
                 updateQueryWindow,
@@ -909,6 +924,8 @@ namespace DTAClient.DXGUI.Generic
 
         private void BtnNewCampaign_LeftClick(object sender, EventArgs e)
             => campaignSelector.Enable();
+        private void BtnMapSelector_LeftClick(object sender, EventArgs e)
+            => campaignMapWindow.Enable();
 
         private void BtnLoadGame_LeftClick(object sender, EventArgs e)
             => gameLoadingWindow.Enable();

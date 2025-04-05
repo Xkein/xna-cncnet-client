@@ -35,7 +35,7 @@ namespace DTAClient.DXGUI.Generic
 
         private DiscordHandler discordHandler;
 
-        private List<Mission> Missions = new List<Mission>();
+        protected List<Mission> Missions = new List<Mission>();
         private XNAListBox lbCampaignList;
         private XNAClientButton btnLaunch;
         private XNATextBlock tbMissionDescription;
