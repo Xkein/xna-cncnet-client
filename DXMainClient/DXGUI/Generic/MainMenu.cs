@@ -23,6 +23,7 @@ using System.Linq;
 using System.Threading;
 using ClientUpdater;
 using DTAClient.Domain.Multiplayer;
+using DTAClient.WorldAxletree.UI;
 
 namespace DTAClient.DXGUI.Generic
 {
@@ -279,6 +280,14 @@ namespace DTAClient.DXGUI.Generic
             lblUpdateStatus.Name = nameof(lblUpdateStatus);
             lblUpdateStatus.LeftClick += LblUpdateStatus_LeftClick;
             lblUpdateStatus.ClientRectangle = new Rectangle(0, 0, UIDesignConstants.BUTTON_WIDTH_160, 20);
+
+            //poster girl
+            PosterManager posterManager = PosterManager.GetInstance(WindowManager);
+            AddChild(posterManager);
+
+            //poster girl (old)
+            Posterhandle.posterHandle = new Posterhandle(WindowManager);
+            AddChild(Posterhandle.posterHandle);
 
             AddChild(btnNewCampaign);
             AddChild(btnMapSelector);
