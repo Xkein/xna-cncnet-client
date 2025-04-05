@@ -152,7 +152,7 @@ namespace DTAClient.DXGUI.Generic
 #if !GL
             if (renderAfterVideoStopped)
             {
-                videoPlayer.Stop();
+                videoPlayer?.Stop();
                 videoPlayer?.Dispose();
                 videoPlayer = null;
             }
