@@ -57,7 +57,7 @@ namespace DTAClient.WorldAxletree.UI
                     if (value != string.Empty)
                     {
                         var type = new AnimationType(value, iniFile);
-                        new Animation(this, type);
+                        _ = new Animation(this, type);
                     }
                 }
             }
